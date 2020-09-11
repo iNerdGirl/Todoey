@@ -39,6 +39,15 @@ class TodoListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteTitle = NSLocalizedString("Delete", comment: "Delete action")
+        let deleteAction = UITableViewRowAction(style: .destructive, title: deleteTitle) { (action, indexPath) in
+            self.toDoItemArray.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
+        return [deleteAction]
+    }
+    
     //MARK: Add new items
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
