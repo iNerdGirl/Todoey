@@ -45,7 +45,25 @@ class TodoListViewController: UITableViewController {
             self.toDoItemArray.remove(at: indexPath.row)
             tableView.reloadData()
         }
-        return [deleteAction]
+        let editTitle = NSLocalizedString("Edit", comment: "Edit action")
+        let editAction = UITableViewRowAction(style: .normal, title: editTitle) { (action, indexPath) in
+            var textField = UITextField()
+            let alert = UIAlertController(title: "Edit Todoey item", message: "", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Edit Item", style: .default) { (action) in
+                let newToDoItem = ToDoItem()
+                newToDoItem.title = textField.text!
+                self.toDoItemArray[indexPath.row] = newToDoItem
+                self.saveItems()
+                tableView.reloadData()
+            }
+            alert.addTextField { (alertTextField) in
+                alertTextField.placeholder = self.toDoItemArray[indexPath.row].title
+                textField = alertTextField
+            }
+            alert.addAction(action)
+            self.present(alert, animated: true, completion: nil)
+        }
+        return [deleteAction, editAction]
     }
     
     //MARK: Add new items
